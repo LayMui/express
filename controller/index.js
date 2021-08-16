@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router( {caseSensitive: true});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
