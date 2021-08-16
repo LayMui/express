@@ -39,3 +39,22 @@ app.get('/api/users/:id/:loc', function(req, res, next){
 })
 ```
 http://localhost:3000/api/users/laymui/singapore
+
+# set and clear cookies
+```
+// Set a cookie
+app.get('/setcookie', function(req, res) {
+  // check if client sent cookie
+  var cookie = req.cookies.cookieName;;
+  if (cookie === undefined) {
+    var randomNumber = Math.random().toString();
+    res.cookie('cookieName', randomNumber, { maxAge: 90000, httpOnly: true});
+    console.log('Cookie created successfully');
+  } else {
+   console.log('cookie exist')}
+   res.send('You created a cookie')
+})
+
+```
+http://localhost:3000/setcookie
+http://localhost:3000/del

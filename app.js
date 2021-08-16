@@ -43,6 +43,27 @@ app.get('/api/users/:id/:loc', function(req, res, next){
   res.send('User ID: ' + user_id + ' Location: ' + loc)
 })
 
+// Setting up to use cookies
+app.use(cookieParser());
+
+// Set a cookie
+app.get('/setcookie', function(req, res) {
+  // check if client sent cookie
+  var cookie = req.cookies.cookieName;;
+  if (cookie === undefined) {
+    var randomNumber = Math.random().toString();
+    res.cookie('cookieName', randomNumber, { maxAge: 90000, httpOnly: true});
+    console.log('Cookie created successfully');
+  } else {
+   console.log('cookie exist')}
+   res.send('You created a cookie')
+})
+
+
+app.get('/del', function(req, res) {
+  res.clearCookie(req.cookies.cookieName);
+  res.send('You have cleared your cookie');
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
