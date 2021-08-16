@@ -58,3 +58,26 @@ app.get('/setcookie', function(req, res) {
 ```
 http://localhost:3000/setcookie
 http://localhost:3000/del
+
+# create a session
+npm i express-session --save-dev
+```
+// Create a session
+app.get('/name/:username', function(req,res) {
+  req.session.id = req.params.username;
+  res.send('<p> Session: <a href="/username">View session Info</a></p>');
+})
+
+app.get('/username', function(req,res) {
+  if (req.session.id) 
+    res.send('This is the stored "session" info: ' + req.session.id + '<br /><a href="/logout">Logout</a>')
+else
+  res.send('already logged out!')
+})
+
+app.get('/logout', function(req, res) {
+  req.session.destroy;
+  res.send('<br/> Logged out - and session destroyed! <br />><a href="/username">Check Session</a>')
+})
+```
+http://localhost:3000/name/joe

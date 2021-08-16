@@ -9,8 +9,10 @@ var users = require('./controller/users');
 var employees = require('./controller/employee');
 var products = require('./controller/product');
 var favicon = require('serve-favicon');
-var expressValidator = require('express-validator');
-var bodyParser = require('body-parser');
+// var expressValidator = require('express-validator');
+// var bodyParser = require('body-parser');
+var expressSession = require('express-session')
+
 
 var app = express();
 
@@ -64,6 +66,29 @@ app.get('/del', function(req, res) {
   res.clearCookie(req.cookies.cookieName);
   res.send('You have cleared your cookie');
 })
+
+
+
+app.use(expressSession({resave: false, saveUninitialized: false, secret: '1dafdxedfad' }))
+
+// Create a session
+app.get('/name/:username', function(req,res) {
+  req.session.id = req.params.username;
+  res.send('<p> Session: <a href="/username">View session Info</a></p>');
+})
+
+app.get('/username', function(req,res) {
+  if (req.session.id) 
+    res.send('This is the stored "session" info: ' + req.session.id + '<br /><a href="/logout">Logout</a>')
+else
+  res.send('already logged out!')
+})
+
+app.get('/logout', function(req, res) {
+  req.session.destroy;
+  res.send('<br/> Logged out - and session destroyed! <br />><a href="/username">Check Session</a>')
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
